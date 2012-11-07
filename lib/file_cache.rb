@@ -16,12 +16,11 @@ module FileCache
   #
   # Returns: nil
   def put(url)
-    p = path(url)
-    f = filename(url)
-    return nil if File.exist?(p + f)
+    file = filepath(url)
+    return nil if File.exist?(file)
 
-    FileUtils.mkdir_p p
-    File.open(p + f, "wb") { |f| f << open(url).read }
+    FileUtils.mkdir_p path(url)
+    File.open(file, "wb") { |f| f << open(url).read }
     nil
   end
 
@@ -39,7 +38,7 @@ module FileCache
   #
   # Returns the File or nil
   def get(url)
-    File.open(path(url) + filename(url), "rb")
+    File.open(filepath(url), "rb")
   rescue Errno::ENOENT
     nil
   end
@@ -70,8 +69,7 @@ module FileCache
   #
   # Returns nil
   def del(url)
-    file = path(url) + filename(url)
-    FileUtils.rm file, force: true
+    FileUtils.rm filepath(url), force: true
   end
 
   private
@@ -96,31 +94,56 @@ module FileCache
     Dir.pwd + '/cache/'
   end
 
-  # Internal: Calculate a files path
+  # Internal: Calculate a path from a hash
   #
-  # url - the URL of the file
+  # hsh - the hash
+  #
+  # Example:
+  #
+  #   path_h('9ae274d94c34542ddd1b64667c1d4e392211ff67')
+  #   # => "cache/9a/e2/"
+  def path_h(hsh)
+    dir = hsh[0..1] + '/'
+    subdir = hsh[2..3] + '/'
+    cache_dir + dir + subdir
+  end
+
+  # Internal: calculate the path from a URL
+  #
+  # url - The URL to the file
   #
   # Example:
   #
   #   path('http://example.com/test123.jpg')
   #   # => "cache/9a/e2/"
   def path(url)
-    hsh = hasher(url)
-    dir = hsh[0..1] + '/'
-    subdir = hsh[2..3] + '/'
-    cache_dir + dir + subdir
+    path_h hasher(url)
   end
 
-  # Internal: calculate the filename for a file
+  # Internal: calculate the filename from a hash
+  #
+  # hsh - the hash
+  #
+  # Example:
+  #
+  #   filename_h('9ae274d94c34542ddd1b64667c1d4e392211ff67')
+  #   # => "74d94c34542ddd1b64667c1d4e392211ff67"
+  def filename_h(hsh)
+    hsh[4..-1]
+  end
+
+  # Internal: calculate the path/filename of a file's URL
   #
   # url - the URL of the file
   #
   # Example:
   #
-  #   path('http://example.com/test123.jpg')
-  #   # => "74d94c34542ddd1b64667c1d4e392211ff67"
-  def filename(url)
-    hsh = hasher(url)
-    hsh[4..-1]
+  #   filepath!('http://example.com/test123.jpg')
+  #   # => "cache/9a/e2/74d94c34542ddd1b64667c1d4e392211ff67"
+  #
+  # Returns a Sting with the full path and filename
+  def filepath(url)
+    hsh = hasher url
+    path_h(hsh) + filename_h(hsh)
   end
 end
