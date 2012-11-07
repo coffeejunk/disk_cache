@@ -80,11 +80,11 @@ module FileCache
   #
   # Examples:
   #
-  #   hasher('hi')
+  #   hash('hi')
   #   # => "c22b5f9178342609428d6f51b2c5af4c0bde6a42"
   #
   # Returns String with hexdigest
-  def hasher(datum)
+  def hash(datum)
     @hasher ||= Digest::SHA1.new
     @hasher.hexdigest(datum)
   end
@@ -117,7 +117,7 @@ module FileCache
   #   path('http://example.com/test123.jpg')
   #   # => "cache/9a/e2/"
   def path(url)
-    path_h hasher(url)
+    path_h hash(url)
   end
 
   # Internal: calculate the filename from a hash
@@ -143,7 +143,7 @@ module FileCache
   #
   # Returns a Sting with the full path and filename
   def filepath(url)
-    hsh = hasher url
+    hsh = hash url
     path_h(hsh) + filename_h(hsh)
   end
 end
