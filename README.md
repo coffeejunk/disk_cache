@@ -42,7 +42,7 @@ FileCache.del('http://example.com/1234abc.jpg')
 ```
 
 
-## TODO
+## Ideas
 
 - option to check if an image has changed (i.e. HTTP Last-Modified)
 
@@ -54,6 +54,8 @@ FileCache.del('http://example.com/1234abc.jpg')
   ```
 
 - option to change the path of the cache
+
+- option to force a .put, i.e. overwrite
 
 
 ## Contributing
