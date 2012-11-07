@@ -16,8 +16,12 @@ module FileCache
   #
   # Returns: nil
   def put(url)
-    FileUtils.mkdir_p path(url)
-    File.open(path(url) + filename(url), "wb") { |f| f << open(url).read }
+    p = path(url)
+    f = filename(url)
+    return nil if File.exist?(p + f)
+
+    FileUtils.mkdir_p p
+    File.open(p + f, "wb") { |f| f << open(url).read }
     nil
   end
 
@@ -51,9 +55,6 @@ module FileCache
   #
   # Returns a File
   def pget(url)
-    f = get(url)
-    return f unless f.nil?
-
     put(url)
     get(url)
   end
