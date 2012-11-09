@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'file_cache/version'
+require 'disk_cache/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "file_cache"
-  gem.version       = FileCache::VERSION
+  gem.name          = "disk_cache"
+  gem.version       = DiskCache::VERSION
   gem.authors       = ["Maximilian Haack"]
   gem.email         = ["mxhaack@gmail.com"]
   gem.description   = %q{A simple way to cache your files.}

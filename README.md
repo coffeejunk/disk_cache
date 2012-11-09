@@ -1,8 +1,8 @@
-# FileCache
+# DiskCache
 
-[![Build Status](https://secure.travis-ci.org/propertybase/file_cache.png)](https://travis-ci.org/propertybase/file_cache)
+[![Build Status](https://secure.travis-ci.org/propertybase/disk_cache.png)](https://travis-ci.org/propertybase/disk_cache)
 
-What does it do? You give FileCache the URL of a file and FileCache makes sure
+What does it do? You give DiskCache the URL of a file and DiskCache makes sure
 that it has the file stored on disk. You can retrieve your files with the same
 URL you used to save the file.
 
@@ -10,7 +10,7 @@ URL you used to save the file.
 
 Add this line to your application's Gemfile:
 
-    gem 'file_cache'
+    gem 'disk_cache'
 
 And then execute:
 
@@ -18,28 +18,28 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install file_cache
+    $ gem install disk_cache
 
 ## Usage
 
 ```ruby
 # to save an image in the cache
-FileCache.put('http://example.com/1234abc.jpg')
+DiskCache.put('http://example.com/1234abc.jpg')
 #=> nil
 
 # to get an image from the cache
-FileCache.get('http://example.com/1234abc.jpg')
+DiskCache.get('http://example.com/1234abc.jpg')
 #=> #<File:1234abc.jpg>
 # or
 #=> nil # if the file isn't stored in the cache
 
 # to get a file no matter if it was stored in the cache or not
 # this will get the file from disk or download it and save it in the cache
-FileCache.pget('http://example.com/1234abc.jpg')
+DiskCache.pget('http://example.com/1234abc.jpg')
 #=> #<File:1234abc.jpg>
 
 # to delete an image from the cache
-FileCache.del('http://example.com/1234abc.jpg')
+DiskCache.del('http://example.com/1234abc.jpg')
 #=> nil
 ```
 

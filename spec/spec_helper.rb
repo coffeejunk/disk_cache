@@ -1,1 +1,1 @@
-require 'file_cache'
+require 'disk_cache'

@@ -1,8 +1,8 @@
-require 'file_cache/version'
+require 'disk_cache/version'
 require 'open-uri'
 require 'digest/sha2'
 
-module FileCache
+module DiskCache
   extend self
 
   # Public: save a file to the cache
@@ -11,7 +11,7 @@ module FileCache
   #
   # Example:
   #
-  #   FileCache.put('http://example.com/test123.jpg')
+  #   DiskCache.put('http://example.com/test123.jpg')
   #   #=> nil
   #
   # Returns: nil
@@ -30,10 +30,10 @@ module FileCache
   #
   # Examples:
   #
-  #   FileCache.get('http://example.com/test123.jpg')
+  #   DiskCache.get('http://example.com/test123.jpg')
   #   # => #<File:9ae274d94c34542ddd1b64667c1d4e392211ff67>
   #
-  #   FileCache.get('http://example.com/test123.jpg')
+  #   DiskCache.get('http://example.com/test123.jpg')
   #   # => nil
   #
   # Returns the File or nil
@@ -49,7 +49,7 @@ module FileCache
   #
   # Examples:
   #
-  #   FileCache.get('http://example.com/test123.jpg')
+  #   DiskCache.get('http://example.com/test123.jpg')
   #   # => #<File:9ae274d94c34542ddd1b64667c1d4e392211ff67>
   #
   # Returns a File
@@ -64,7 +64,7 @@ module FileCache
   #
   # Example:
   #
-  #   FileCache.del('http://example.com/test123.jpg')
+  #   DiskCache.del('http://example.com/test123.jpg')
   #   # => nil
   #
   # Returns nil
