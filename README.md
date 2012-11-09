@@ -1,5 +1,7 @@
 # FileCache
 
+[![Build Status](https://secure.travis-ci.org/propertybase/file_cache.png)](https://travis-ci.org/propertybase/file_cache)
+
 What does it do? You give FileCache the URL of a file and FileCache makes sure
 that it has the file stored on disk. You can retrieve your files with the same
 URL you used to save the file.
@@ -56,6 +58,8 @@ FileCache.del('http://example.com/1234abc.jpg')
 - option to change the path of the cache
 
 - option to force a .put, i.e. overwrite
+
+- option to set the depth of subfolders
 
 
 ## Contributing
