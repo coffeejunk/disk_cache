@@ -1,6 +1,7 @@
 # DiskCache
 
 [![Build Status](https://secure.travis-ci.org/propertybase/disk_cache.png)](https://travis-ci.org/propertybase/disk_cache)
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/propertybase/disk_cache)
 
 What does it do? You give DiskCache the URL of a file and DiskCache makes sure
 that it has the file stored on disk. You can retrieve your files with the same
