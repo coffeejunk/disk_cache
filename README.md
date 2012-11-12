@@ -62,6 +62,8 @@ DiskCache.del('http://example.com/1234abc.jpg')
 
 - option to set the depth of subfolders
 
+- option to set the Hashing algorithm (e.g. MD5, SHA1, SHA2, etc)
+
 
 ## Contributing
 
@@ -70,3 +72,7 @@ DiskCache.del('http://example.com/1234abc.jpg')
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## License
+
+License is MIT, see [LICENSE.txt](https://github.com/propertybase/disk_cache/blob/master/LICENSE.txt) for details.
