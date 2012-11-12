@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["mxhaack@gmail.com"]
   gem.description   = %q{A simple way to cache your files.}
   gem.summary       = %q{Cache files that you have have to use several times.}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/propertybase/disk_cache"
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
