@@ -1,6 +1,6 @@
 require 'disk_cache/version'
 require 'open-uri'
-require 'digest/sha2'
+require 'digest/sha1'
 
 module DiskCache
   extend self
