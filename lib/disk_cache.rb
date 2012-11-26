@@ -85,8 +85,7 @@ module DiskCache
   #
   # Returns String with hexdigest
   def hash(datum)
-    @hasher ||= Digest::SHA1.new
-    @hasher.hexdigest(datum)
+    Digest::SHA1.new.hexdigest(datum)
   end
 
   # Internal: Return the directory of the cache as a String
