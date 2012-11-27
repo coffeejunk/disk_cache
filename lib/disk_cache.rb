@@ -16,6 +16,7 @@ module DiskCache
   #
   # Returns: nil
   def put(url)
+    url = escape(url)
     file = filepath(url)
     return nil if File.exist?(file)
 
@@ -38,6 +39,7 @@ module DiskCache
   #
   # Returns the File or nil
   def get(url)
+    url = escape(url)
     File.open(filepath(url), "rb")
   rescue Errno::ENOENT
     nil
@@ -54,6 +56,7 @@ module DiskCache
   #
   # Returns a File
   def pget(url)
+    url = escape(url)
     put(url)
     get(url)
   end
@@ -69,6 +72,7 @@ module DiskCache
   #
   # Returns nil
   def del(url)
+    url = escape(url)
     FileUtils.rm filepath(url), force: true
   end
 
@@ -149,5 +153,19 @@ module DiskCache
   #   # => "74d94c34542ddd1b64667c1d4e392211ff67"
   def filename_h(hsh)
     hsh[4..-1]
+  end
+
+  # Internal: escape a given url
+  #
+  # url - the URL to escape
+  #
+  # Example:
+  #
+  #   url_escape('http://example.com/hello world')
+  #   # => "http://example.com/hello%20world"
+  #
+  # Returns a String with the escaped url
+  def escape(url)
+    URI.escape(url)
   end
 end

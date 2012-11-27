@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe DiskCache do
   let(:path) { 'spec/asset/Trollface.svg' }
-  let(:file) { File.open(path, 'r') }
+
+  before(:each) { DiskCache.clear! }
 
   context "storing and accessing" do
     it ".put" do
@@ -13,13 +14,13 @@ describe DiskCache do
     it ".get" do
       DiskCache.put(path)
       file_from_cache = DiskCache.get(path)
-      FileUtils.compare_file(file, file_from_cache).should be_true
+      FileUtils.compare_file(path, file_from_cache).should be_true
     end
 
     it ".pget" do
       DiskCache.del(path)
       file_from_cache = DiskCache.pget(path)
-      FileUtils.compare_file(file, file_from_cache).should be_true
+      FileUtils.compare_file(path, file_from_cache).should be_true
     end
 
     it ".filepath" do
@@ -40,6 +41,22 @@ describe DiskCache do
     it ".clear" do
       DiskCache.clear!
       DiskCache.get(path).should be_nil
+    end
+  end
+
+  context "sanity" do
+    let(:web) { 'http://example.com/Troll face.svg' }
+    let(:cto) { File.read(path) }
+
+    before(:each) do
+      stub_request(:get, "http://example.com/Troll face.svg").
+        to_return(body: cto)
+    end
+
+    it "should handle urls with spaces" do
+      DiskCache.put(web)
+      file_from_cache = DiskCache.get(web)
+      FileUtils.compare_file(path, file_from_cache).should be_true
     end
   end
 end
