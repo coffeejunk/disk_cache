@@ -16,12 +16,11 @@ module DiskCache
   #
   # Returns: nil
   def put(url)
-    url = escape(url)
     file = filepath(url)
     return nil if File.exist?(file)
 
     FileUtils.mkdir_p path(url)
-    File.open(file, "wb") { |f| f << open(url).read }
+    File.open(file, "wb") { |f| f << open(escape(url)).read }
     nil
   end
 
@@ -39,7 +38,6 @@ module DiskCache
   #
   # Returns the File or nil
   def get(url)
-    url = escape(url)
     File.open(filepath(url), "rb")
   rescue Errno::ENOENT
     nil
@@ -56,7 +54,6 @@ module DiskCache
   #
   # Returns a File
   def pget(url)
-    url = escape(url)
     put(url)
     get(url)
   end
@@ -72,7 +69,6 @@ module DiskCache
   #
   # Returns nil
   def del(url)
-    url = escape(url)
     FileUtils.rm filepath(url), force: true
   end
 
@@ -109,7 +105,7 @@ module DiskCache
   #
   # Returns String with hexdigest
   def hash(datum)
-    Digest::SHA1.new.hexdigest(datum)
+    Digest::SHA1.new.hexdigest(escape(datum))
   end
 
   # Internal: Return the directory of the cache as a String

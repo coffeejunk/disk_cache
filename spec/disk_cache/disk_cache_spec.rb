@@ -46,11 +46,10 @@ describe DiskCache do
 
   context "sanity" do
     let(:web) { 'http://example.com/Troll face.svg' }
-    let(:cto) { File.read(path) }
 
     before(:each) do
       stub_request(:get, "http://example.com/Troll face.svg").
-        to_return(body: cto)
+        to_return(body: File.read(path))
     end
 
     it "should handle urls with spaces" do
