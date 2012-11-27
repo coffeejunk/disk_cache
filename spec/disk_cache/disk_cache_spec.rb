@@ -36,5 +36,10 @@ describe DiskCache do
       DiskCache.del(path)
       DiskCache.get(path).should be_nil
     end
+
+    it ".clear" do
+      DiskCache.clear!
+      DiskCache.get(path).should be_nil
+    end
   end
 end

@@ -87,6 +87,11 @@ module DiskCache
     path_h(hsh) + filename_h(hsh)
   end
 
+  # Public: this removes all contents of the cache.
+  def clear!
+    FileUtils.rm_r cache_dir if File.exists? cache_dir
+  end
+
   private
 
   # Internal: Hashes a given piece of data with SHA1
