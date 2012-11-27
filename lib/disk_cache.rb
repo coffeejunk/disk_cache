@@ -72,6 +72,21 @@ module DiskCache
     FileUtils.rm filepath(url), force: true
   end
 
+  # Public: calculate the path/filename of a file's URL
+  #
+  # url - the URL of the file
+  #
+  # Example:
+  #
+  #   DiskCache.filepath('http://example.com/test123.jpg')
+  #   # => "cache/9a/e2/74d94c34542ddd1b64667c1d4e392211ff67"
+  #
+  # Returns a Sting with the full path and filename
+  def filepath(url)
+    hsh = hash url
+    path_h(hsh) + filename_h(hsh)
+  end
+
   private
 
   # Internal: Hashes a given piece of data with SHA1
@@ -129,20 +144,5 @@ module DiskCache
   #   # => "74d94c34542ddd1b64667c1d4e392211ff67"
   def filename_h(hsh)
     hsh[4..-1]
-  end
-
-  # Internal: calculate the path/filename of a file's URL
-  #
-  # url - the URL of the file
-  #
-  # Example:
-  #
-  #   filepath!('http://example.com/test123.jpg')
-  #   # => "cache/9a/e2/74d94c34542ddd1b64667c1d4e392211ff67"
-  #
-  # Returns a Sting with the full path and filename
-  def filepath(url)
-    hsh = hash url
-    path_h(hsh) + filename_h(hsh)
   end
 end

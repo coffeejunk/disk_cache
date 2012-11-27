@@ -21,6 +21,12 @@ describe DiskCache do
       file_from_cache = DiskCache.pget(path)
       FileUtils.compare_file(file, file_from_cache).should be_true
     end
+
+    it ".filepath" do
+      DiskCache.put(path)
+      DiskCache.filepath(path).should include(
+        'cache/fb/2b/228b717ea0a569bc7d12187ff55e5e3a0180')
+    end
   end
 
   context "removing data" do
