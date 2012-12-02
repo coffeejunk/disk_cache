@@ -89,7 +89,11 @@ module DiskCache
 
   # Public: this removes all contents of the cache.
   def clear!
-    FileUtils.rm_r cache_dir if File.exists? cache_dir
+    if File.exists? cache_dir
+      Dir.glob(cache_dir + '*').each do |f|
+        FileUtils.rm_r f
+      end
+    end
   end
 
   private
