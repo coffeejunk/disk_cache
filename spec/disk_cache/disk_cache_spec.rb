@@ -46,15 +46,25 @@ describe DiskCache do
 
   context "sanity" do
     let(:web) { 'http://example.com/Troll face.svg' }
+    let(:web_correct) { 'http://example.com/Troll%20face.svg' }
 
     before(:each) do
       stub_request(:get, "http://example.com/Troll face.svg").
+        to_return(body: File.read(path))
+
+      stub_request(:get, "http://example.com/Troll%20face.svg").
         to_return(body: File.read(path))
     end
 
     it "should handle urls with spaces" do
       DiskCache.put(web)
       file_from_cache = DiskCache.get(web)
+      FileUtils.compare_file(path, file_from_cache).should be_true
+    end
+
+    it "should handle urls with escaped spaces" do
+      DiskCache.put(web_correct)
+      file_from_cache = DiskCache.get(web_correct)
       FileUtils.compare_file(path, file_from_cache).should be_true
     end
   end

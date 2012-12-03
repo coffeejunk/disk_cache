@@ -167,6 +167,7 @@ module DiskCache
   #
   # Returns a String with the escaped url
   def escape(url)
-    URI.escape(url)
+    return URI.escape(url) if url.include? ' '
+    url
   end
 end
