@@ -68,4 +68,55 @@ describe DiskCache do
       FileUtils.compare_file(path, file_from_cache).should be_true
     end
   end
+
+  context "failure responses" do
+    let(:web) { 'http://example.com/Troll%20face.svg' }
+
+    # fail once
+    fail_once = {
+      "400" => "Bad Request",
+      "401" => "Unauthorized",
+      "403" => "Forbidden",
+      "404" => "Not Found",
+      "405" => "Method Not Allowed",
+      "501" => "Not Implemented"
+    }
+    fail_once.each do |code, msg|
+      it "#{code}" do
+        stub_request(:get, web).to_return(:status => [code, msg])
+        expect { DiskCache.put(web) }.to raise_error(OpenURI::HTTPError)
+        DiskCache.get(web).should be_nil
+      end
+    end
+
+    # retry!
+    retry_on_failure = {
+      "408" => "Request Timeout",
+      "409" => "Conflict",
+      "410" => "Gone",
+      "500" => "Internal Server Error",
+      "502" => "Bad Gateway",
+      "503" => "Service Unavailable",
+      "504" => "Gateway Timeout"
+    }
+    retry_on_failure.each do |code, msg|
+      it "#{code}" do
+        stub_request(:get, web).to_return(:status => [code, msg])
+        expect { DiskCache.put(web) }.to raise_error(OpenURI::HTTPError)
+        DiskCache.get(web).should be_nil
+      end
+    end
+
+    it "should retry on timeout" do
+      stub_request(:get, web).to_timeout
+      expect { DiskCache.put(web) }.to raise_error(Timeout::Error)
+      DiskCache.get(web).should be_nil
+    end
+
+    it "should retry on SSL Error" do
+      stub_request(:get, web).to_raise(OpenSSL::SSL::SSLError)
+      expect { DiskCache.put(web) }.to raise_error(OpenSSL::SSL::SSLError)
+      DiskCache.get(web).should be_nil
+    end
+  end
 end

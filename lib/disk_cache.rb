@@ -1,5 +1,6 @@
 require 'disk_cache/version'
 require 'open-uri'
+require 'openssl'
 require 'digest/sha1'
 require 'fileutils'
 
@@ -21,7 +22,23 @@ module DiskCache
     return nil if File.exist?(file)
 
     FileUtils.mkdir_p path(url)
-    File.open(file, "wb") { |f| f << open(escape(url)).read }
+    trys = 0
+    begin
+      trys = trys + 1
+      data = open(escape(url)).read
+      File.open(file, "wb") { |f| f << data }
+    rescue OpenURI::HTTPError => httperror
+      raise httperror unless trys < 3
+      retry
+    rescue Timeout::Error => timeout
+      raise timeout unless trys < 3
+      retry
+    rescue OpenSSL::SSL::SSLError => ssl
+      raise ssl unless trys < 3
+      retry
+    rescue => error
+      raise error
+    end
     nil
   end
 
